@@ -104,8 +104,7 @@ function S3MP(options) {
         // Notify the client that the upload has succeeded when we
         // get confirmation from the server
         if (obj.location) {
-          console.log(_.merge(uploadObj, obj));
-          S3MP.onComplete( _.merge(uploadObj, obj) );
+          S3MP.onComplete( _.extend(uploadObj, obj) );
         }
       });
 
