@@ -51,10 +51,8 @@ module S3Multipart
           response = Upload.complete(params)
           upload = Upload.find_by_upload_id(params[:upload_id])
           upload.update_attributes(location: response[:location])
-          callback_data = upload.execute_callback(:complete, session) 
-          if callback_data.respond_to? "merge!"
-            response.merge! callback_data
-          end
+          upload.execute_callback(:complete, session) 
+          response.merge! upload.to_json
         rescue => e
           logger.error "EXC: #{e.message}"
           response = {error: t("s3_multipart.errors.complete")}
