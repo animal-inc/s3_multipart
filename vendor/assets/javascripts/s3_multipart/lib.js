@@ -355,7 +355,6 @@ function Upload(file, o, key) {
     this.inprogress = [];
     this.uploaded = 0;
     this.status = "";
-    this.customData = {};
 
     // Break the file into an appropriate amount of chunks
     // This needs to be optimized for various browsers types/versions
