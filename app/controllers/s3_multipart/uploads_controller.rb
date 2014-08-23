@@ -53,7 +53,9 @@ module S3Multipart
           upload.update_attributes(location: response[:location])
           data = {}
           upload.execute_callback(:complete, session, data) 
+          logger.debug data
           response.merge! data
+          logger.debug response
         rescue => e
           logger.error "EXC: #{e.message}"
           response = {error: t("s3_multipart.errors.complete")}
