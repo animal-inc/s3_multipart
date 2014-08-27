@@ -165,10 +165,12 @@ S3MP.prototype.initiateMultipart = function(upload, cb) {
             uploader     : $(this.fileInputElement).data("uploader")
           };
 
-  performRequest = function(url, body, cb) {
-    xhr = this.createXhrRequest('POST', url);
-    this.deliverRequest(xhr, body, cb);
-  }
+  performRequest = (function(_this) {
+    return function(url, body, cb) {
+      xhr = _this.createXhrRequest('POST', url);
+      _this.deliverRequest(xhr, body, cb);
+    };
+  })(this);
 
   if (context === "image") {
     fr = new FileReader;
