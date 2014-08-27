@@ -151,20 +151,41 @@ function S3MP(options) {
 };
 
 S3MP.prototype.initiateMultipart = function(upload, cb) {
-  var url, body, xhr;
+  var url, body, xhr, context, performRequest;
 
   url = '/s3_multipart/uploads';
-  body = JSON.stringify({ object_name  : upload.name,
-                          content_type : upload.type,
-                          content_size : upload.size,
-                          headers      : this.headers,
-                          context      : $(this.fileInputElement).data("context"),
-                          uploader     : $(this.fileInputElement).data("uploader")
-                        });
 
-  xhr = this.createXhrRequest('POST', url);
-  this.deliverRequest(xhr, body, cb);
+  context = $(this.fileInputElement).data("context");
 
+  body = {  object_name  : upload.name,
+            content_type : upload.type,
+            content_size : upload.size,
+            headers      : this.headers,
+            context      : context,
+            uploader     : $(this.fileInputElement).data("uploader")
+          };
+
+  performRequest = function(url, body, cb) {
+    xhr = this.createXhrRequest('POST', url);
+    this.deliverRequest(xhr, body, cb);
+  }
+
+  if (context === "image") {
+    fr = new FileReader;
+    fr.onload = function() {
+      img = new Image;
+      img.onload = function() {
+        body.imageWidth = img.width;
+        body.imageHeight = img.height;
+        performRequest(url, JSON.stringify(body), cb);
+      }
+        console.log img.width
+      img.src = fr.result
+    }
+    fr.readAsDataURL(upload.file)
+  } else {
+    performRequest(url, JSON.stringify(body), cb);
+  }
 };
 
 S3MP.prototype.signPartRequests = function(id, object_name, upload_id, parts, cb) {
