@@ -32,6 +32,7 @@ function S3MP(options) {
     beginUpload: function() {
       var i = [];
       function beginUpload(pipes, uploadObj) {
+        console.log(uploadObj);
         var key = uploadObj.key
           , num_parts = uploadObj.parts.length;
 
