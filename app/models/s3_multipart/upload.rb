@@ -7,7 +7,7 @@ module S3Multipart
 
     def self.create(params)
       response = initiate(params)
-      super(key: response["key"], upload_id: response["upload_id"], name: response["name"], uploader: params["uploader"], size: params["content_size"], context: params["context"].to_s)
+      super(key: response["key"], upload_id: response["upload_id"], name: response["name"], uploader: params["uploader"], size: params["content_size"], context: params["context"].to_s, width: params["imageWidth"], height: params["imageHeight"])
     end
 
     def execute_callback(stage, session, data={})
