@@ -15,6 +15,8 @@ function Upload(file, o, key) {
     this.uploaded = 0;
     this.status = "";
 
+    console.log(this);
+
     // Break the file into an appropriate amount of chunks
     // This needs to be optimized for various browsers types/versions
     if (this.size > 1000000000) { // size greater than 1gb
