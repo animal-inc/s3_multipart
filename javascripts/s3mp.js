@@ -177,14 +177,13 @@ S3MP.prototype.initiateMultipart = function(upload, cb) {
   if (context === "image") {
     fr = new FileReader;
     fr.onload = function() {
-      images = [];
-      images.push(new Image);
-      images[images.length-1].onload = function() {
-        body.imageWidth = images[images.length-1].width;
-        body.imageHeight = images[images.length-1].height;
+      img = new Image;
+      img.onload = function() {
+        body.imageWidth = img.width;
+        body.imageHeight = img.height;
         performRequest(url, JSON.stringify(body), cb);
       }
-      images[images.length-1].src = fr.result
+      img.src = fr.result
     }
     fr.readAsDataURL(upload.file)
   } else {
