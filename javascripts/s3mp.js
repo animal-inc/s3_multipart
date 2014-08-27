@@ -18,7 +18,6 @@ function S3MP(options) {
     beginUpload: function() {
       var i = [];
       function beginUpload(pipes, uploadObj) {
-        console.log(uploadObj);
         var key = uploadObj.key
           , num_parts = uploadObj.parts.length;
 
@@ -172,6 +171,8 @@ S3MP.prototype.initiateMultipart = function(upload, cb) {
       _this.deliverRequest(xhr, body, cb);
     };
   })(this);
+
+  console.log(body);
 
   if (context === "image") {
     fr = new FileReader;
