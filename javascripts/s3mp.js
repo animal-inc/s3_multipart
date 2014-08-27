@@ -179,7 +179,6 @@ S3MP.prototype.initiateMultipart = function(upload, cb) {
         body.imageHeight = img.height;
         performRequest(url, JSON.stringify(body), cb);
       }
-        console.log img.width
       img.src = fr.result
     }
     fr.readAsDataURL(upload.file)
