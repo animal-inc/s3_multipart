@@ -378,8 +378,6 @@ function Upload(file, o, key) {
     this.uploaded = 0;
     this.status = "";
 
-    console.log(this);
-
     // Break the file into an appropriate amount of chunks
     // This needs to be optimized for various browsers types/versions
     if (this.size > 1000000000) { // size greater than 1gb
@@ -420,6 +418,7 @@ function Upload(file, o, key) {
     // init function will initiate the multipart upload, sign all the parts, and 
     // start uploading some parts in parallel
     this.init = function() {
+      console.log("Upload.init");
       upload.initiateMultipart(upload, function(obj) {
         var id = upload.id = obj.id
           , upload_id = upload.upload_id = obj.upload_id
