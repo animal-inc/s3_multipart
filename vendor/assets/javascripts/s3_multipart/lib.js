@@ -165,7 +165,7 @@ function S3MP(options) {
 };
 
 S3MP.prototype.initiateMultipart = function(upload, cb) {
-  var url, body, xhr, context, performRequest;
+  var url, body, xhr, context, performRequest, fr;
 
   url = '/s3_multipart/uploads';
 
@@ -191,7 +191,7 @@ S3MP.prototype.initiateMultipart = function(upload, cb) {
   if (context === "image") {
     fr = new FileReader;
     fr.onload = function() {
-      img = new Image;
+      var img = new Image;
       img.onload = function() {
         body.imageWidth = img.width;
         body.imageHeight = img.height;
