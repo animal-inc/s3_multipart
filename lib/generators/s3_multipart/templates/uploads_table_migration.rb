@@ -12,6 +12,7 @@ class CreateS3MultipartUploads < ActiveRecord::Migration
       t.text :context
       t.integer :width
       t.integer :height
+      t.string :content_type
 
       t.timestamps
     end
