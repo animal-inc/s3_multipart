@@ -168,7 +168,7 @@ S3MP.prototype.initiateMultipart = function(upload, cb) {
           };
 
   xhr = this.createXhrRequest('POST', url);
-  this.deliverRequest(xhr, body, cb);
+  this.deliverRequest(xhr, JSON.stringify(body), cb);
 
   // performRequest = (function(_this) {
   //   return function(url, body, cb) {
