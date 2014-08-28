@@ -1,7 +1,9 @@
 // Upload constructor
 function Upload(file, o, key) {
   function Upload() {
-    var upload, id, parts, part, segs, chunk_segs, chunk_lens, pipes, blob;
+    var upload, id, parts, part, segs, chunk_segs, chunk_lens, pipes, blob, imageTypes;
+
+    imageTypes = ["image/png", "image/jpg", "image/jpeg", "image/gif"];
     
     upload = this;
     
@@ -14,6 +16,20 @@ function Upload(file, o, key) {
     this.inprogress = [];
     this.uploaded = 0;
     this.status = "";
+    this.imageData = {};
+
+    if (_.contains(imageTypes, this.type)) {
+      var fr = new FileReader;
+      fr.onload = function() {
+        var img = new Image;
+        img.onload = function() {
+          this.imageData.width = img.width;
+          this.imageData.height = img.height;
+        }
+        img.src = fr.result;
+      }
+      fr.readAsDataURL(upload.file);
+    }
 
     // Break the file into an appropriate amount of chunks
     // This needs to be optimized for various browsers types/versions
@@ -55,7 +71,6 @@ function Upload(file, o, key) {
     // init function will initiate the multipart upload, sign all the parts, and 
     // start uploading some parts in parallel
     this.init = function() {
-      console.log("Upload.init");
       upload.initiateMultipart(upload, function(obj) {
         var id = upload.id = obj.id
           , upload_id = upload.upload_id = obj.upload_id

@@ -162,33 +162,38 @@ S3MP.prototype.initiateMultipart = function(upload, cb) {
             content_size : upload.size,
             headers      : this.headers,
             context      : context,
-            uploader     : $(this.fileInputElement).data("uploader")
+            uploader     : $(this.fileInputElement).data("uploader"),
+            imageWidth   : upload.imageData.width,
+            imageHeight  : upload.imageData.height
           };
 
-  performRequest = (function(_this) {
-    return function(url, body, cb) {
-      xhr = _this.createXhrRequest('POST', url);
-      _this.deliverRequest(xhr, body, cb);
-    };
-  })(this);
+  xhr = createXhrRequest('POST', url);
+  deliverRequest(xhr, body, cb);
 
-  console.log(body);
+  // performRequest = (function(_this) {
+  //   return function(url, body, cb) {
+  //     xhr = _this.createXhrRequest('POST', url);
+  //     _this.deliverRequest(xhr, body, cb);
+  //   };
+  // })(this);
 
-  if (context === "image") {
-    fr = new FileReader;
-    fr.onload = function() {
-      var img = new Image;
-      img.onload = function() {
-        body.imageWidth = img.width;
-        body.imageHeight = img.height;
-        performRequest(url, JSON.stringify(body), cb);
-      }
-      img.src = fr.result
-    }
-    fr.readAsDataURL(upload.file)
-  } else {
-    performRequest(url, JSON.stringify(body), cb);
-  }
+  // console.log(body);
+
+  // if (context === "image") {
+  //   fr = new FileReader;
+  //   fr.onload = function() {
+  //     var img = new Image;
+  //     img.onload = function() {
+  //       body.imageWidth = img.width;
+  //       body.imageHeight = img.height;
+  //       performRequest(url, JSON.stringify(body), cb);
+  //     }
+  //     img.src = fr.result;
+  //   }
+  //   fr.readAsDataURL(upload.file);
+  // } else {
+  //   performRequest(url, JSON.stringify(body), cb);
+  // }
 };
 
 S3MP.prototype.signPartRequests = function(id, object_name, upload_id, parts, cb) {

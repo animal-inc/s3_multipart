@@ -176,33 +176,38 @@ S3MP.prototype.initiateMultipart = function(upload, cb) {
             content_size : upload.size,
             headers      : this.headers,
             context      : context,
-            uploader     : $(this.fileInputElement).data("uploader")
+            uploader     : $(this.fileInputElement).data("uploader"),
+            imageWidth   : upload.imageData.width,
+            imageHeight  : upload.imageData.height
           };
 
-  performRequest = (function(_this) {
-    return function(url, body, cb) {
-      xhr = _this.createXhrRequest('POST', url);
-      _this.deliverRequest(xhr, body, cb);
-    };
-  })(this);
+  xhr = createXhrRequest('POST', url);
+  deliverRequest(xhr, body, cb);
 
-  console.log(body);
+  // performRequest = (function(_this) {
+  //   return function(url, body, cb) {
+  //     xhr = _this.createXhrRequest('POST', url);
+  //     _this.deliverRequest(xhr, body, cb);
+  //   };
+  // })(this);
 
-  if (context === "image") {
-    fr = new FileReader;
-    fr.onload = function() {
-      var img = new Image;
-      img.onload = function() {
-        body.imageWidth = img.width;
-        body.imageHeight = img.height;
-        performRequest(url, JSON.stringify(body), cb);
-      }
-      img.src = fr.result
-    }
-    fr.readAsDataURL(upload.file)
-  } else {
-    performRequest(url, JSON.stringify(body), cb);
-  }
+  // console.log(body);
+
+  // if (context === "image") {
+  //   fr = new FileReader;
+  //   fr.onload = function() {
+  //     var img = new Image;
+  //     img.onload = function() {
+  //       body.imageWidth = img.width;
+  //       body.imageHeight = img.height;
+  //       performRequest(url, JSON.stringify(body), cb);
+  //     }
+  //     img.src = fr.result;
+  //   }
+  //   fr.readAsDataURL(upload.file);
+  // } else {
+  //   performRequest(url, JSON.stringify(body), cb);
+  // }
 };
 
 S3MP.prototype.signPartRequests = function(id, object_name, upload_id, parts, cb) {
@@ -366,7 +371,9 @@ S3MP.prototype.resume = function(key) {
 // Upload constructor
 function Upload(file, o, key) {
   function Upload() {
-    var upload, id, parts, part, segs, chunk_segs, chunk_lens, pipes, blob;
+    var upload, id, parts, part, segs, chunk_segs, chunk_lens, pipes, blob, imageTypes;
+
+    imageTypes = ["image/png", "image/jpg", "image/jpeg", "image/gif"];
     
     upload = this;
     
@@ -379,6 +386,20 @@ function Upload(file, o, key) {
     this.inprogress = [];
     this.uploaded = 0;
     this.status = "";
+    this.imageData = {};
+
+    if (_.contains(imageTypes, this.type)) {
+      var fr = new FileReader;
+      fr.onload = function() {
+        var img = new Image;
+        img.onload = function() {
+          this.imageData.width = img.width;
+          this.imageData.height = img.height;
+        }
+        img.src = fr.result;
+      }
+      fr.readAsDataURL(upload.file);
+    }
 
     // Break the file into an appropriate amount of chunks
     // This needs to be optimized for various browsers types/versions
@@ -420,7 +441,6 @@ function Upload(file, o, key) {
     // init function will initiate the multipart upload, sign all the parts, and 
     // start uploading some parts in parallel
     this.init = function() {
-      console.log("Upload.init");
       upload.initiateMultipart(upload, function(obj) {
         var id = upload.id = obj.id
           , upload_id = upload.upload_id = obj.upload_id
