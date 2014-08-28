@@ -390,11 +390,12 @@ function Upload(file, o, key) {
 
     if (_.contains(imageTypes, this.type)) {
       var fr = new FileReader;
-      fr.onload = function() {
+      _this = this;
+      fr.onload = function(_this) {
         var img = new Image;
-        img.onload = function() {
-          this.imageData.width = img.width;
-          this.imageData.height = img.height;
+        img.onload = function(_this) {
+          _this.imageData.width = img.width;
+          _this.imageData.height = img.height;
         }
         img.src = fr.result;
       }
