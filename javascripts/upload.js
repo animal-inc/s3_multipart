@@ -20,15 +20,16 @@ function Upload(file, o, key) {
 
     if (_.contains(imageTypes, this.type)) {
       var fr = new FileReader;
-      _this = this;
-      fr.onload = function(_this) {
+      var fileLoaded = function() {
         var img = new Image;
-        img.onload = function(_this) {
-          _this.imageData.width = img.width;
-          _this.imageData.height = img.height;
+        var imageLoaded = function() {
+          this.imageData.width = img.width;
+          this.imageData.height = img.height;
         }
+        img.onload = imageLoaded.bind(this);
         img.src = fr.result;
-      }
+      };
+      fr.onload = fileLoaded.bind(this);
       fr.readAsDataURL(upload.file);
     }
 
