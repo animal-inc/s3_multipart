@@ -4,8 +4,11 @@ module S3Multipart
     def create
       begin
         upload = Upload.create(params)
+        logger.debug "created upload model"
         upload.execute_callback(:begin, session)
+        logger.debug "executed callback"
         response = upload.to_json
+        logger.debug "completed upload to_json"
       rescue FileTypeError, FileSizeError => e
         response = {error: e.message}
       rescue => e
