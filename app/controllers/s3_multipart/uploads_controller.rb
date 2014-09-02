@@ -3,6 +3,7 @@ module S3Multipart
 
     def create
       begin
+        logger.debug "create route"
         upload = Upload.create(params)
         logger.debug "created upload model"
         upload.execute_callback(:begin, session)
