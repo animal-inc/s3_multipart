@@ -7,8 +7,8 @@ module S3Multipart
 
     def self.create(params)
       response = initiate(params)
-      logger.debug "response is: #{response.pp}"
-      logger.debug "params is: #{params.pp}"
+      logger.debug "response is: #{pp response}"
+      logger.debug "params is: #{pp params}"
       super(key: response["key"], upload_id: response["upload_id"], name: response["name"], uploader: params["uploader"], size: params["content_size"], content_type: params["upload"]["content_type"], context: params["context"].to_s, width: params["imageWidth"], height: params["imageHeight"])
     end
 
