@@ -14,6 +14,7 @@ module S3Multipart
         response = {error: e.message}
       rescue => e
         logger.error "EXC: #{e.message}"
+        logger.error e.backtrace
         response = { error: t("s3_multipart.errors.create") }
       ensure
         render :json => response
@@ -60,6 +61,7 @@ module S3Multipart
           response.merge!({custom_data: data})
         rescue => e
           logger.error "EXC: #{e.message}"
+          logger.error e.backtrace
           response = {error: t("s3_multipart.errors.complete")}
         ensure
           render :json => response
