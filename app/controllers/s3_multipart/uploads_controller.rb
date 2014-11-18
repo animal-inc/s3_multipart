@@ -11,6 +11,7 @@ module S3Multipart
         logger.debug "executed callback"
         response = upload.to_json
         logger.debug "completed upload to_json"
+        logger.debug response
       rescue FileTypeError, FileSizeError => e
         response = {error: e.message}
       rescue => e
