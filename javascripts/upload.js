@@ -11,14 +11,14 @@ function Upload(file, o, key) {
     this.file = file;
     this.name = file.name;
     this.size = file.size;
-    this.type = file.type;
+    this.content_type = file.type;
     this.Etags = [];
     this.inprogress = [];
     this.uploaded = 0;
     this.status = "";
     this.imageData = {};
 
-    if (_.contains(imageTypes, this.type)) {
+    if (_.contains(imageTypes, this.content_type)) {
       var fr = new FileReader;
       var fileLoaded = function() {
         var img = new Image;
