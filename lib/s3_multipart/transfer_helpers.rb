@@ -7,6 +7,8 @@ module S3Multipart
     def initiate(options)
       url = "/#{unique_name(options)}?uploads"
 
+      logger.info options[:content_type]
+
       headers = {content_type: options[:content_type]}
       headers.merge!(options[:headers]) if options.key?(:headers)
       headers[:authorization], headers[:date] = sign_request verb: 'POST',
