@@ -66,8 +66,6 @@ module S3Multipart
           logger.error e.backtrace
           response = {error: t("s3_multipart.errors.complete")}
         ensure
-          logger.debug "whassssupppp"
-          logger.debug response
           render :json => response
         end
       end

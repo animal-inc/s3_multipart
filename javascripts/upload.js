@@ -61,6 +61,8 @@ function Upload(file, o, key) {
     });
 
     if (upload.sliceBlob == "Unsupported") {
+      console.log("im sad");
+      console.log(upload);
       this.parts = [new UploadPart(file, 0, upload)];
     } else {
       this.parts = _.map(chunk_lens, function(len, i) {
