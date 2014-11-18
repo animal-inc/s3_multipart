@@ -158,7 +158,7 @@ S3MP.prototype.initiateMultipart = function(upload, cb) {
   context = $(this.fileInputElement).data("context");
 
   body = {  object_name  : upload.name,
-            content_type : upload.type,
+            content_type : upload.content_type,
             content_size : upload.size,
             headers      : this.headers,
             context      : context,
