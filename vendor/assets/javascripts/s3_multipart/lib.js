@@ -172,7 +172,7 @@ S3MP.prototype.initiateMultipart = function(upload, cb) {
   context = $(this.fileInputElement).data("context");
 
   body = {  object_name  : upload.name,
-            content_type : upload.type,
+            content_type : upload.content_type,
             content_size : upload.size,
             headers      : this.headers,
             context      : context,
@@ -387,6 +387,9 @@ function Upload(file, o, key) {
     this.uploaded = 0;
     this.status = "";
     this.imageData = {};
+
+    console.log("fuuuuck");
+    console.log(this);
 
     if (_.contains(imageTypes, this.content_type)) {
       var fr = new FileReader;
