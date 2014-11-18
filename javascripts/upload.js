@@ -61,12 +61,12 @@ function Upload(file, o, key) {
     });
 
     if (upload.sliceBlob == "Unsupported") {
-      console.log("im sad");
-      console.log(upload);
       this.parts = [new UploadPart(file, 0, upload)];
     } else {
       this.parts = _.map(chunk_lens, function(len, i) {
         blob = upload.sliceBlob(file, len, chunk_lens[i+1]);
+        console.log("im sad");
+      console.log(upload);
         return new UploadPart(blob, i+1, upload);
       });
       this.parts.pop(); // Remove the empty blob at the end of the array
