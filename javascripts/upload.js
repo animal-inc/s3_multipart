@@ -18,6 +18,9 @@ function Upload(file, o, key) {
     this.status = "";
     this.imageData = {};
 
+    console.log("fuuuuck");
+    console.log(this);
+
     if (_.contains(imageTypes, this.content_type)) {
       var fr = new FileReader;
       var fileLoaded = function() {
