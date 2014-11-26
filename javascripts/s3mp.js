@@ -167,6 +167,8 @@ S3MP.prototype.initiateMultipart = function(upload, cb) {
             imageHeight  : upload.imageData.height
           };
 
+  console.log("inside initiateMultipart");
+  console.log(upload);
   xhr = this.createXhrRequest('POST', url);
   this.deliverRequest(xhr, JSON.stringify(body), cb);
 
