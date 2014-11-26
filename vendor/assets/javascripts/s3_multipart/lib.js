@@ -184,30 +184,6 @@ S3MP.prototype.initiateMultipart = function(upload, cb) {
   xhr = this.createXhrRequest('POST', url);
   this.deliverRequest(xhr, JSON.stringify(body), cb);
 
-  // performRequest = (function(_this) {
-  //   return function(url, body, cb) {
-  //     xhr = _this.createXhrRequest('POST', url);
-  //     _this.deliverRequest(xhr, body, cb);
-  //   };
-  // })(this);
-
-  // console.log(body);
-
-  // if (context === "image") {
-  //   fr = new FileReader;
-  //   fr.onload = function() {
-  //     var img = new Image;
-  //     img.onload = function() {
-  //       body.imageWidth = img.width;
-  //       body.imageHeight = img.height;
-  //       performRequest(url, JSON.stringify(body), cb);
-  //     }
-  //     img.src = fr.result;
-  //   }
-  //   fr.readAsDataURL(upload.file);
-  // } else {
-  //   performRequest(url, JSON.stringify(body), cb);
-  // }
 };
 
 S3MP.prototype.signPartRequests = function(id, object_name, upload_id, parts, cb) {
@@ -388,14 +364,13 @@ function Upload(file, o, key) {
     this.status = "";
     this.imageData = {};
 
-    console.log("fuuuuck");
-    console.log(this);
-
     if (_.contains(imageTypes, this.content_type)) {
       var fr = new FileReader;
       var fileLoaded = function() {
         var img = new Image;
         var imageLoaded = function() {
+          console.log("imageLoaded");
+          console.log(this);
           this.imageData.width = img.width;
           this.imageData.height = img.height;
         }
