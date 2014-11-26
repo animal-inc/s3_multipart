@@ -182,7 +182,7 @@ S3MP.prototype.initiateMultipart = function(upload, cb) {
           };
 
   console.log("inside initiateMultipart");
-  console.log(upload);
+  console.log(upload.imageData.width);
   xhr = this.createXhrRequest('POST', url);
   this.deliverRequest(xhr, JSON.stringify(body), cb);
 
@@ -212,7 +212,9 @@ S3MP.prototype.completeMultipart = function(uploadObj, cb) {
   body = JSON.stringify({ object_name    : uploadObj.object_name,
                           upload_id      : uploadObj.upload_id,
                           content_length : uploadObj.size,
-                          parts          : uploadObj.Etags
+                          parts          : uploadObj.Etags,
+                          width          : uploadObj.imageData.width,
+                          height         : uploadObj.imageData.height
                         });
 
   xhr = this.createXhrRequest('PUT', url);
