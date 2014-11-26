@@ -18,14 +18,13 @@ function Upload(file, o, key) {
     this.status = "";
     this.imageData = {};
 
-    console.log("fuuuuck");
-    console.log(this);
-
     if (_.contains(imageTypes, this.content_type)) {
       var fr = new FileReader;
       var fileLoaded = function() {
         var img = new Image;
         var imageLoaded = function() {
+          console.log("imageLoaded");
+          console.log(this);
           this.imageData.width = img.width;
           this.imageData.height = img.height;
         }
