@@ -18,23 +18,6 @@ function Upload(file, o, key) {
     this.status = "";
     this.imageData = {};
 
-    if (_.contains(imageTypes, this.content_type)) {
-      var fr = new FileReader;
-      var fileLoaded = function() {
-        var img = new Image;
-        var imageLoaded = function() {
-          console.log("imageLoaded");
-          console.log(this);
-          this.imageData.width = img.width;
-          this.imageData.height = img.height;
-        }
-        img.onload = imageLoaded.bind(this);
-        img.src = fr.result;
-      };
-      fr.onload = fileLoaded.bind(this);
-      fr.readAsDataURL(upload.file);
-    }
-
     // Break the file into an appropriate amount of chunks
     // This needs to be optimized for various browsers types/versions
     if (this.size > 1000000000) { // size greater than 1gb
@@ -72,9 +55,32 @@ function Upload(file, o, key) {
       this.parts.pop(); // Remove the empty blob at the end of the array
     }
 
+    
+    this.init = function() {
+      if (_.contains(imageTypes, this.content_type)) {
+        var fr = new FileReader;
+        var fileLoaded = function() {
+          var img = new Image;
+          var imageLoaded = function() {
+            console.log("imageLoaded");
+            console.log(this);
+            this.imageData.width = img.width;
+            this.imageData.height = img.height;
+            start();
+          }
+          img.onload = imageLoaded.bind(this);
+          img.src = fr.result;
+        };
+        fr.onload = fileLoaded.bind(this);
+        fr.readAsDataURL(upload.file);
+      } else {
+        start();
+      }
+    }
+
     // init function will initiate the multipart upload, sign all the parts, and 
     // start uploading some parts in parallel
-    this.init = function() {
+    this.start = function() {
       upload.initiateMultipart(upload, function(obj) {
         var id = upload.id = obj.id
           , upload_id = upload.upload_id = obj.upload_id
@@ -91,7 +97,8 @@ function Upload(file, o, key) {
           });
         });
       }); 
-    } 
+    }
+
   };
   // Inherit the properties and prototype methods of the passed in S3MP instance object
   Upload.prototype = o;

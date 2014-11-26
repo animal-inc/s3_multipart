@@ -6,6 +6,8 @@ module S3Multipart
     before_create :validate_file_type, :validate_file_size
 
     def self.create(params)
+      logger.debug("Upload#create")
+      logger.debug(params)
       response = initiate(params)
       super(key: response["key"], upload_id: response["upload_id"], name: response["name"], uploader: params["uploader"], size: params["content_size"], content_type: params["upload"]["content_type"], context: params["context"].to_s, width: params["width"], height: params["height"])
     end
