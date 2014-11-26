@@ -416,7 +416,7 @@ function Upload(file, o, key) {
             console.log(this);
             this.imageData.width = img.width;
             this.imageData.height = img.height;
-            start();
+            this.start();
           }
           img.onload = imageLoaded.bind(this);
           img.src = fr.result;
@@ -424,7 +424,7 @@ function Upload(file, o, key) {
         fr.onload = fileLoaded.bind(this);
         fr.readAsDataURL(upload.file);
       } else {
-        start();
+        this.start();
       }
     }
 
